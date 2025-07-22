@@ -1,3 +1,9 @@
+[project]
+name = "ruff-review"
+dependencies = [
+  "tomllib",
+]
+
 [tool.ruff]
 src = ["."]
 exclude = [
