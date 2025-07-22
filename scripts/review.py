@@ -11,7 +11,7 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
-def review(runners: list[str], diff_range: str = "HEAD~1") -> int:
+def review(runners: list[str], diff_range: str = "HEAD~1", github: bool = False) -> int:
     """Runs code review diagnostics tool on the specified git diff range.
 
     Args:
@@ -22,6 +22,7 @@ def review(runners: list[str], diff_range: str = "HEAD~1") -> int:
         int: The return code from the reviewdog process.
 
     """
+    reporter_type = "github-pr-review" if github else "local"
     reviewdog_args = [
         "-filter-mode=added",
         f"-diff=git diff {diff_range}",
@@ -30,7 +31,7 @@ def review(runners: list[str], diff_range: str = "HEAD~1") -> int:
         # more detailed report, but for now we just use the local reporter.
         # This option also supports `gerrit-change-review` as well as
         # `github-pr-review`.
-        "-reporter=local",
+        f"-reporter={reporter_type}",
         "-fail-level=any",
         "-runners=" + ",".join(runners),
     ]
@@ -78,10 +79,17 @@ if __name__ == "__main__":
         action="store_true",
         help="Enable verbose logging",
     )
+    parser.add_argument(
+        "--github",
+        action="store_true",
+        help="Use GitHub PR review reporter instead of a local reporter",
+    )
     args = parser.parse_args()
 
     # Continuous Integration mode uses a set of less strict rules.
     ci_mode: bool = args.ci_mode
+    # GitHub Actions mode uses GitHub PR review reporter
+    github: bool = args.github
     # Runners are specified in `.reviewdog.yml` file
     runner: list[str] = ["ruff-ci" if ci_mode else "ruff"]
     diff_range: str = args.diff_range
@@ -90,7 +98,7 @@ if __name__ == "__main__":
     if verbose:
         logger.setLevel(logging.DEBUG)
 
-    code = review(runner, diff_range)
+    code = review(runner, diff_range, github)
     if code == 1:
         msg = """
 
