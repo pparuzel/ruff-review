@@ -51,10 +51,10 @@ def review(runners: list[str], diff_range: str = "HEAD~1") -> int:
         logger.error(review_proc.stderr)
         review_proc.check_returncode()
 
-    if stdout := review_proc.stdout.rstrip():
-        logger.info(stdout)
     if stderr := review_proc.stderr.rstrip():
         logger.info(stderr)
+    if stdout := review_proc.stdout.rstrip():
+        logger.info(stdout)
 
     return code
 
