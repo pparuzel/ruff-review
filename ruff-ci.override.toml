@@ -1,0 +1,9 @@
+# This is ruff configuration for automation that overrides
+# `pyproject.toml` ruff config.
+#
+# This config is read by `scripts/ruff-ci.py` which builds command-line
+# overrides and executes ruff. Such a workaround is needed because ruff does
+# not support two config files (--config=file1 --config=file2).
+
+[lint]
+extend-select = ["I"]

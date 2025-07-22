@@ -1,0 +1,48 @@
+[tool.ruff]
+src = ["."]
+exclude = [
+  "3rdparty",
+]
+line-length = 88  # Black's default
+indent-width = 4
+respect-gitignore = true  # Explicit default
+
+[tool.ruff.lint]
+select = [
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # pyflakes
+  "I",   # isort-style import ordering
+  "N",   # pep8-naming
+  "UP",  # pyupgrade (modernises syntax)
+  "B",   # flake8-bugbear (common pitfalls)
+  "C4",  # flake8-comprehensions
+  "SIM", # flake8-simplify
+  "TID", # flake8-tidy-imports
+  "ARG", # flake8-unused-arguments
+  "ANN", # flake8-annotations (typing clarity)
+  "Q",   # flake8-quotes
+  "RET", # flake8-return (return value checks)
+  "TC",  # flake8-type-checking
+  "G",   # flake8-logging-format
+  "ERA", # eradicate (remove dead code)
+  "RUF", # ruff-specific rules
+
+  # TODO: enable when you want to enforce doc-strings
+  # "D",   # pydocstyle (doc-string conventions)
+
+  # pylint may be too needy yet
+  # "PLC", # pylint-convention
+  # "PLE", # pylint-error
+  # "PLR", # pylint-refactor
+  # "PLW", # pylint-warning
+]
+
+[tool.ruff.lint.isort]
+known-first-party   = ["exampleproject"]
+combine-as-imports  = true  # groups multiple `import x as y` together
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false

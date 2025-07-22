@@ -1,0 +1,11 @@
+runner:
+  ruff:
+    name: "ruff"
+    cmd: "ruff check --output-format=concise --exit-zero"
+    errorformat:
+      - "%f:%l:%c: %m"
+  ruff-ci:
+    name: "ruff-ci"
+    cmd: "scripts/ruff-ci.py"
+    errorformat:
+      - "%f:%l:%c: %m"
